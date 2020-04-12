@@ -30,10 +30,42 @@ class Maze:
         pass
 
 
-def navigate_maze1():
+def navigate_maze1(maze, exitIndex):
     #Casey
     #depth first search (Trémaux's algorithm)
-    pass
+    y_index = 0
+    x_index = 0
+    maze_dict = {}
+    stack = []
+    #create a dictionary to tag each index as visited or unvisited
+    for i in range(len(m)):
+        for j in range(len(m[i])):
+            maze_dict[str(i) + str(j)] = False
+    #overwrite the exitIndex with the tag 'Exit'
+    maze_dict[str(exitIndex)] = 'Exit'
+    print(maze_dict)
+    stack.append('00')
+    while maze_dict[str(y_index) + str(x_index)] != 'Exit':
+        maze_dict[str(stack[-1][0]) + str(stack[-1][1])] = True
+        print('Stack: ', stack)
+        stack = stack[0:-1]
+        print('X:', x_index, '\nY:', y_index)
+        try:
+            if maze[y_index + 1][x_index] == 1:
+                stack.append(str(y_index + 1) + str(x_index))
+        except IndexError:
+            pass
+        try:
+            if maze[y_index][x_index + 1] == 1:
+                stack.append(str(y_index) + str(x_index + 1))
+        except IndexError:
+            pass
+        y_index = int(stack[-1][0])
+        x_index = int(stack[-1][1])
+
+    return maze_dict
+
+
 
 def navigate_maze2():
     #Audrey
@@ -48,6 +80,7 @@ def navigate_maze3():
 
 def navigate_maze_control():
     #random mouse algorithm
+    pass
 
 if __name__== "__main__":
     m = [[1, 0, 0, 1],
@@ -55,3 +88,4 @@ if __name__== "__main__":
          [0, 1, 0, 0],
          [0, 1, 1, 1]]
     maze1 = Maze(maze=m)
+    print(navigate_maze1(m, 33))
