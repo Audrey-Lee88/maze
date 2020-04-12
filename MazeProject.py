@@ -5,8 +5,10 @@
 #3. Create ?3? traversal functions
 #4. Create test functions that show completion times
 #5. Plot comparisons between completion times
+
 import numpy as np
 import random
+from BreadthFirstSearch import bfs
 
 
 class Maze:
@@ -67,12 +69,12 @@ def navigate_maze1(maze, exitIndex):
 
 
 
-def navigate_maze2():
-    #Audrey
-    #breadth first search
-    #uses a queue to visit cells in increasing distance order from the start
-    #until the finish is reached
-    pass
+def navigate_maze2(maze):
+    # Audrey
+    # breadth first search
+    # uses a queue to visit cells in increasing distance order from the start
+    # until the finish is reached
+    bfs(m)
 
 def navigate_maze3():
     #pledge algorithm?
@@ -88,4 +90,17 @@ if __name__== "__main__":
          [0, 1, 0, 0],
          [0, 1, 1, 1]]
     maze1 = Maze(maze=m)
+    
     print(navigate_maze1(m, 33))
+    m = [["x","x", "x", "x", "x", "s", "x", "x", "x"],
+        ["x"," ", " ", " ", " ", " ", " ", " ", "x"],
+        ["x"," ", " ", "x", "x", "x", "x", " ", "x"],
+        ["x"," ", " ", " ", " ", " ", "x", " ", "x"],
+        ["x"," ", "x", " ", " ", " ", "x", " ", "x"],
+        ["x"," ", "x", " ", "x", " ", "x", " ", " "],
+        ["x"," ", "x", " ", "x", " ", "x", "x", " "],
+        ["e"," ", "x", " ", "x", " ", " ", " ", " "],
+        ["x"," ", "x", " ", "x", " ", " ", " ", " "],
+        ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
+    navigate_maze2(m)
+    # maze1 = Maze(maze=m)
