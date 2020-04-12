@@ -48,6 +48,7 @@ def navigate_maze3():
 
 def navigate_maze_control():
     #random mouse algorithm
+    pass
 
 if __name__== "__main__":
     m = [[1, 0, 0, 1],
