@@ -68,7 +68,7 @@ def bfs(maze):
         for j in ["N", "S", "E", "W"]:
             push = add + j
             if valid(maze, push):
-                print(push)
+                # print(push)
                 q.put(push)
 
 
