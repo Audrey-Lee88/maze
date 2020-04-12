@@ -19,7 +19,7 @@ class Maze:
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        maze = [[0 for i in range(self.size[0])] for j in range(self.size[1])]
+        maze = [['0' for i in range(self.size[0])] for j in range(self.size[1])]
         print(maze)
 
     def add_path(self):
