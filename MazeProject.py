@@ -12,23 +12,26 @@ from BreadthFirstSearch import bfs
 
 
 class Maze:
-    def __init__(self, maze=[]):
-        self.Maze = maze
+    def __init__(self, size):
+        self.size = size
         #do init stuff for 2D arrays
 
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        pass
+        maze = [[0 for i in range(self.size[0])] for j in range(self.size[1])]
+        print(maze)
 
     def add_path(self):
         #overwrite a random succesfull path from
         #the start to end
+        # Audrey
         pass
 
     def add_noise(self):
         #add in extraneous 1s as to add unsuccesfull paths,
         #weight will have to be experimented with
+        # Casey
         pass
 
 
@@ -53,12 +56,12 @@ def navigate_maze1(maze, exitIndex):
         stack = stack[0:-1]
         print('X:', x_index, '\nY:', y_index)
         try:
-            if maze[y_index + 1][x_index] == 1:
+            if maze[y_index + 1][x_index] == '1':
                 stack.append(str(y_index + 1) + str(x_index))
         except IndexError:
             pass
         try:
-            if maze[y_index][x_index + 1] == 1:
+            if maze[y_index][x_index + 1] == '1':
                 stack.append(str(y_index) + str(x_index + 1))
         except IndexError:
             pass
@@ -85,12 +88,12 @@ def navigate_maze_control():
     pass
 
 if __name__== "__main__":
-    m = [[1, 0, 0, 1],
-         [1, 1, 0, 0],
-         [0, 1, 0, 0],
-         [0, 1, 1, 1]]
-    maze1 = Maze(maze=m)
-    
+    m = [['1', '0', '0', '0'],
+         ['1', '1', '0', '0'],
+         ['0', '1', '0', '0'],
+         ['0', '1', '1', '1']]
+    # maze1 = Maze(maze=m)
+
     print(navigate_maze1(m, 33))
     m = [["x","x", "x", "x", "x", "s", "x", "x", "x"],
         ["x"," ", " ", " ", " ", " ", " ", " ", "x"],
@@ -104,3 +107,5 @@ if __name__== "__main__":
         ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
     navigate_maze2(m)
     # maze1 = Maze(maze=m)
+    maze = Maze((6, 6))
+    maze.blank_slate()
