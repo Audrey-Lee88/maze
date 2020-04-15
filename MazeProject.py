@@ -24,22 +24,22 @@ class Maze:
         return maze
 
     def random_start_end(self):
-        start = [0,np.random.randint(0,self.size[0]-1)]
-        end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
-        print(start,end)
-        self.maze[start[0]][start[1]] = 's'
-        self.maze[end[0]][end[1]] = 'e'
+        self.start = [0,np.random.randint(0,self.size[0]-1)]
+        self.end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
+        print(self.start,self.end)
+        self.maze[self.start[0]][self.start[1]] = 's'
+        self.maze[self.end[0]][self.end[1]] = 'e'
         print(self.maze)
-        return start, end
 
     def add_path(self):
         #overwrite a random succesfull path from
         #the start to end
         # Audrey
-        start, end = maze.random_start_end()
+        self.random_start_end()
         # for i in range(len(self.maze[0])):
         #     for j in range(len(self.maze)):
-        #         pass
+        #         if self.maze[i][j]!='s' and self.maze[i][j]!='e':
+        #             self.maze[i][j] = '0'
         return self.maze
 
     def add_noise(self):
@@ -123,9 +123,10 @@ if __name__== "__main__":
          ['1', '1', '0', '0'],
          ['0', '1', '0', '0'],
          ['0', '1', '1', 'e']]
-    navigate_maze2(m)
+    # navigate_maze2(m)
     # maze1 = Maze(maze=m)
-    maze = Maze((6, 6))
+    maze = Maze((5,5))
     m = maze.add_path()
+    print(m)
     navigate_maze2(m)
     # maze.blank_slate()
