@@ -8,25 +8,44 @@
 
 import numpy as np
 import random
-from BreadthFirstSearch import bfs
+from BreadthFirstSearch import bfs, start
 
 
 class Maze:
     def __init__(self, size):
         self.size = size
+        self.maze = self.blank_slate()
         #do init stuff for 2D arrays
 
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        maze = [['0' for i in range(self.size[0])] for j in range(self.size[1])]
-        print(maze)
+        maze = [['1' for i in range(self.size[0])] for j in range(self.size[1])]
+        return maze
+
+    def random_start_end(self):
+        start = [0,np.random.randint(0,self.size[0]-1)]
+        end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
+        print(start,end)
+
+        for i in range(len(self.maze[0])):
+            for j in range(len(self.maze)):
+                if i == start[0] and j == start[1]:
+                    self.maze[i][j] = 's'
+                if i == end[0] and j == end[1]:
+                    self.maze[i][j] = 'e'
+        print(self.maze)
+        return start, end
 
     def add_path(self):
         #overwrite a random succesfull path from
         #the start to end
         # Audrey
-        pass
+        start, end = maze.random_start_end()
+        # for i in range(len(self.maze[0])):
+        #     for j in range(len(self.maze)):
+        #         pass
+        return self.maze
 
     def add_noise(self):
         #add in extraneous 1s as to add unsuccesfull paths,
@@ -72,7 +91,7 @@ def navigate_maze1(maze, exitIndex):
 
 
 
-def navigate_maze2(maze):
+def navigate_maze2(m):
     # Audrey
     # breadth first search
     # uses a queue to visit cells in increasing distance order from the start
@@ -112,4 +131,6 @@ if __name__== "__main__":
     navigate_maze2(m)
     # maze1 = Maze(maze=m)
     maze = Maze((6, 6))
-    maze.blank_slate()
+    m = maze.add_path()
+    navigate_maze2(m)
+    # maze.blank_slate()
