@@ -14,13 +14,14 @@ from BreadthFirstSearch import bfs
 class Maze:
     def __init__(self, size):
         self.size = size
+        self.maze = [[]]
         #do init stuff for 2D arrays
 
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        maze = [[0 for i in range(self.size[0])] for j in range(self.size[1])]
-        print(maze)
+        self.maze = [['0' for i in range(self.size[0])] for j in range(self.size[1])]
+        print(self.maze)
 
     def add_path(self):
         #overwrite a random succesfull path from
@@ -29,11 +30,14 @@ class Maze:
         pass
 
     def add_noise(self):
-        #add in extraneous 1s as to add unsuccesfull paths,
-        #weight will have to be experimented with
-        # Casey
-        pass
-
+        for i in range(self.size[0]):
+            for j in range(self.size[1]):
+                print(type(self.maze))
+                if self.maze[i][j] == '0':
+                    number = random.randrange(0,100,1)
+                    if number <= 30:
+                        self.maze[i][j] = '1'
+        print(self.maze)
 
 def navigate_maze1(maze, exitIndex):
     #Casey
@@ -95,17 +99,18 @@ if __name__== "__main__":
     # maze1 = Maze(maze=m)
 
     print(navigate_maze1(m, 33))
-    m = [["x","x", "x", "x", "x", "s", "x", "x", "x"],
-        ["x"," ", " ", " ", " ", " ", " ", " ", "x"],
-        ["x"," ", " ", "x", "x", "x", "x", " ", "x"],
-        ["x"," ", " ", " ", " ", " ", "x", " ", "x"],
-        ["x"," ", "x", " ", " ", " ", "x", " ", "x"],
-        ["x"," ", "x", " ", "x", " ", "x", " ", " "],
-        ["x"," ", "x", " ", "x", " ", "x", "x", " "],
-        ["e"," ", "x", " ", "x", " ", " ", " ", " "],
-        ["x"," ", "x", " ", "x", " ", " ", " ", " "],
-        ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
-    navigate_maze2(m)
+    # m = [["x","x", "x", "x", "x", "s", "x", "x", "x"],
+    #     ["x"," ", " ", " ", " ", " ", " ", " ", "x"],
+    #     ["x"," ", " ", "x", "x", "x", "x", " ", "x"],
+    #     ["x"," ", " ", " ", " ", " ", "x", " ", "x"],
+    #     ["x"," ", "x", " ", " ", " ", "x", " ", "x"],
+    #     ["x"," ", "x", " ", "x", " ", "x", " ", " "],
+    #     ["x"," ", "x", " ", "x", " ", "x", "x", " "],
+    #     ["e"," ", "x", " ", "x", " ", " ", " ", " "],
+    #     ["x"," ", "x", " ", "x", " ", " ", " ", " "],
+    #     ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
+    # navigate_maze2(m)
     # maze1 = Maze(maze=m)
-    maze = Maze((6, 6))
-    maze.blank_slate()
+    exampleMaze = Maze((6, 6))
+    exampleMaze.blank_slate()
+    exampleMaze.add_noise()
