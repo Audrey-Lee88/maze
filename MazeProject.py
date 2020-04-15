@@ -125,7 +125,7 @@ if __name__== "__main__":
          ['0', '1', '1', 'e']]
     # navigate_maze2(m)
     # maze1 = Maze(maze=m)
-    maze = Maze((5,5))
+    maze = Maze((10,10))
     m = maze.add_path()
     print(m)
     maze.add_noise()
