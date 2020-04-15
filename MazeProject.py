@@ -8,7 +8,8 @@
 
 import numpy as np
 import random
-from BreadthFirstSearch import bfs, start
+from BreadthFirstSearch import bfs
+from GenerateMaze import make_maze
 
 
 class Maze:
@@ -35,11 +36,8 @@ class Maze:
         #overwrite a random succesfull path from
         #the start to end
         # Audrey
+        self.maze= make_maze(self.size[0],self.size[1])
         self.random_start_end()
-        # for i in range(len(self.maze[0])):
-        #     for j in range(len(self.maze)):
-        #         if self.maze[i][j]!='s' and self.maze[i][j]!='e':
-        #             self.maze[i][j] = '0'
         return self.maze
 
     def add_noise(self):
