@@ -27,13 +27,8 @@ class Maze:
         start = [0,np.random.randint(0,self.size[0]-1)]
         end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
         print(start,end)
-
-        for i in range(len(self.maze[0])):
-            for j in range(len(self.maze)):
-                if i == start[0] and j == start[1]:
-                    self.maze[i][j] = 's'
-                if i == end[0] and j == end[1]:
-                    self.maze[i][j] = 'e'
+        self.maze[start[0]][start[1]] = 's'
+        self.maze[end[0]][end[1]] = 'e'
         print(self.maze)
         return start, end
 
