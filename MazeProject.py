@@ -8,31 +8,43 @@
 
 import numpy as np
 import random
-from BreadthFirstSearch import bfs
+from BreadthFirstSearch import bfs, start
 
 
 class Maze:
     def __init__(self, size):
         self.size = size
-        self.maze = [[]]
+        self.maze = self.blank_slate()
         #do init stuff for 2D arrays
 
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        self.maze = [['0' for i in range(self.size[0])] for j in range(self.size[1])]
+        maze = [['1' for i in range(self.size[0])] for j in range(self.size[1])]
+        return maze
+
+    def random_start_end(self):
+        self.start = [0,np.random.randint(0,self.size[0]-1)]
+        self.end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
+        print(self.start,self.end)
+        self.maze[self.start[0]][self.start[1]] = 's'
+        self.maze[self.end[0]][self.end[1]] = 'e'
         print(self.maze)
 
     def add_path(self):
         #overwrite a random succesfull path from
         #the start to end
         # Audrey
-        pass
+        self.random_start_end()
+        # for i in range(len(self.maze[0])):
+        #     for j in range(len(self.maze)):
+        #         if self.maze[i][j]!='s' and self.maze[i][j]!='e':
+        #             self.maze[i][j] = '0'
+        return self.maze
 
     def add_noise(self):
         for i in range(self.size[0]):
             for j in range(self.size[1]):
-                print(type(self.maze))
                 if self.maze[i][j] == '0':
                     number = random.randrange(0,100,1)
                     if number <= 30:
@@ -76,7 +88,7 @@ def navigate_maze1(maze, exitIndex):
 
 
 
-def navigate_maze2(maze):
+def navigate_maze2(m):
     # Audrey
     # breadth first search
     # uses a queue to visit cells in increasing distance order from the start
@@ -109,8 +121,15 @@ if __name__== "__main__":
     #     ["e"," ", "x", " ", "x", " ", " ", " ", " "],
     #     ["x"," ", "x", " ", "x", " ", " ", " ", " "],
     #     ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
+    m = [['s', '0', '0', '0'],
+         ['1', '1', '0', '0'],
+         ['0', '1', '0', '0'],
+         ['0', '1', '1', 'e']]
     # navigate_maze2(m)
     # maze1 = Maze(maze=m)
-    exampleMaze = Maze((6, 6))
-    exampleMaze.blank_slate()
-    exampleMaze.add_noise()
+    maze = Maze((5,5))
+    m = maze.add_path()
+    print(m)
+    maze.add_noise()
+    navigate_maze2(m)
+    # maze.blank_slate()

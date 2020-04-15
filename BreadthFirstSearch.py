@@ -9,8 +9,8 @@ def start(maze):
     return s
 
 
-def valid(maze, moves):
-    i = start(maze)
+def valid(maze, moves, begin):
+    i = begin
     j = 0
     for move in moves:
         # Move left, right, up, or down
@@ -33,8 +33,8 @@ def valid(maze, moves):
     return True
 
 
-def find_end(maze, moves):
-    i = start(maze)
+def find_end(maze, moves, begin):
+    i = begin
     j = 0
     for move in moves:
         if move == "W":
@@ -61,13 +61,14 @@ def bfs(maze):
     q = queue.Queue()
     q.put("")
     add = ""
+    beg = start(maze)
 
-    while not find_end(maze, add):
+    while not find_end(maze, add, beg):
         add = q.get()
         # print(add)
         for j in ["N", "S", "E", "W"]:
             push = add + j
-            if valid(maze, push):
+            if valid(maze, push, beg):
                 # print(push)
                 q.put(push)
 
