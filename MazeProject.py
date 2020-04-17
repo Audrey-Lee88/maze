@@ -32,14 +32,6 @@ class Maze:
         self.maze[self.end[0]][self.end[1]] = 'e'
         print(self.maze)
 
-    def add_path(self):
-        #overwrite a random succesfull path from
-        #the start to end
-        # Audrey
-        self.maze= make_maze(self.size[0],self.size[1])
-        self.random_start_end()
-        return self.maze
-
     def add_noise(self):
         for i in range(self.size[0]):
             for j in range(self.size[1]):
@@ -47,7 +39,17 @@ class Maze:
                     number = random.randrange(0,100,1)
                     if number <= 30:
                         self.maze[i][j] = '1'
-        print(self.maze)
+
+    def add_path(self):
+        #overwrite a random succesfull path from
+        #the start to end
+        # Audrey
+        self.maze = make_maze(self.size[0],self.size[1])
+        self.random_start_end()
+        self.add_noise()
+        return self.maze
+
+
 
 def navigate_maze1(maze, exitIndex):
     #Casey
@@ -125,9 +127,8 @@ if __name__== "__main__":
          ['0', '1', '1', 'e']]
     # navigate_maze2(m)
     # maze1 = Maze(maze=m)
-    maze = Maze((10,10))
+    maze = Maze((5,5))
     m = maze.add_path()
     print(m)
-    maze.add_noise()
     navigate_maze2(m)
     # maze.blank_slate()
