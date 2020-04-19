@@ -64,18 +64,17 @@ def bfs(maze):
     add = ""
     beg = start(maze)
     t = time.time()
-    try:
-        while not find_end(maze, add, beg):
-            add = q.get()
-            # print(add)
-            for j in ["N", "S", "E", "W"]:
-                push = add + j
-                if valid(maze, push, beg):
-                    # print(push)
-                    q.put(push)
-    except time.time()-t > 6:
-        print('nope',time.time()-t )
-        return False
+    while not find_end(maze, add, beg):
+        add = q.get()
+        # print(add)
+        for j in ["N", "S", "E", "W"]:
+            push = add + j
+            if valid(maze, push, beg):
+                # print(push)
+                q.put(push)
+        if time.time()-t > 6:
+            print('nope',time.time()-t)
+            return False
 
 if __name__ == "__main__":
 
