@@ -10,6 +10,7 @@ import numpy as np
 import random
 from BreadthFirstSearch import bfs
 from GenerateMaze import make_maze
+import time
 
 
 class Maze:
@@ -30,14 +31,15 @@ class Maze:
         print(self.start,self.end)
         self.maze[self.start[0]][self.start[1]] = 's'
         self.maze[self.end[0]][self.end[1]] = 'e'
-        print(self.maze)
 
     def add_noise(self):
         for i in range(self.size[0]):
+            # print('\ni: ', i)
             for j in range(self.size[1]):
-                if self.maze[i][j] == '0':
+                # print('\nj: ', j)
+                if self.maze[i][j] == '0' or self.maze[i][j] == 0:
                     number = random.randrange(0,100,1)
-                    if number <= 30:
+                    if number <= 45:
                         self.maze[i][j] = '1'
 
     def add_path(self):
@@ -47,11 +49,12 @@ class Maze:
         self.maze = make_maze(self.size[0],self.size[1])
         self.random_start_end()
         self.add_noise()
-        return self.maze
 
 
 
 def navigate_maze1(maze, exitIndex):
+    #TODO: sweep the graph to find the start and end (use find start from BFS)
+    #fix edge cases
     #Casey
     #depth first search (Trémaux's algorithm)
     y_index = 0
@@ -103,32 +106,73 @@ def navigate_maze_control():
     #random mouse algorithm
     pass
 
-if __name__== "__main__":
-    m = [['1', '0', '0', '0'],
-         ['1', '1', '0', '0'],
-         ['0', '1', '0', '0'],
-         ['0', '1', '1', '1']]
-    # maze1 = Maze(maze=m)
+def run(m):
+    t = time.time()
 
-    print(navigate_maze1(m, 33))
-    # m = [["x","x", "x", "x", "x", "s", "x", "x", "x"],
-    #     ["x"," ", " ", " ", " ", " ", " ", " ", "x"],
-    #     ["x"," ", " ", "x", "x", "x", "x", " ", "x"],
-    #     ["x"," ", " ", " ", " ", " ", "x", " ", "x"],
-    #     ["x"," ", "x", " ", " ", " ", "x", " ", "x"],
-    #     ["x"," ", "x", " ", "x", " ", "x", " ", " "],
-    #     ["x"," ", "x", " ", "x", " ", "x", "x", " "],
-    #     ["e"," ", "x", " ", "x", " ", " ", " ", " "],
-    #     ["x"," ", "x", " ", "x", " ", " ", " ", " "],
-    #     ["x","x", "x", "x", "x", "x", "x", " ", "x"]]
-    m = [['s', '0', '0', '0'],
-         ['1', '1', '0', '0'],
-         ['0', '1', '0', '0'],
-         ['0', '1', '1', 'e']]
-    # navigate_maze2(m)
-    # maze1 = Maze(maze=m)
-    maze = Maze((5,5))
-    m = maze.add_path()
-    print(m)
-    navigate_maze2(m)
-    # maze.blank_slate()
+    try:
+        navigate_maze2(m)
+    except time.time()-t > 6:
+        print('hello')
+        return False
+    return True
+
+def test_func():
+    #TODO:
+    #for sizes 10-100
+    # for 10 iterations
+    #generate a random maze, check to make sure it has a path from start to end
+    #if not, regenerate a random maze and check again until has a path
+    #start timer
+    #run nav1
+    #when end is found, end timer and save time and size of maze in tuple and append
+    #to nav1list
+    #start timer, run nav2
+    #when end is found, ender timer and save time and size of maze in tuple and append
+    #tuple to nav2list
+    #plot?
+    nav1list = []
+    nav2list = []
+    for size in range(10, 101):
+        print('yep')
+        for iter in range(10):
+            maze = Maze((size,size))
+            maze.add_path()
+            print(maze.maze)
+            bool = run(maze.maze)
+            print('this is so sad')
+            while bool == False:
+                print('this is so sad')
+                maze.blank_slate()
+                maze.add_path()
+                bool = run(maze.maze)
+            # t = time.time()
+            # navigate_maze1()
+            # time = time.time()-t
+            # nav1list.append((size, time))
+            #second test
+            t = time.time()
+            print(maze.maze)
+            navigate_maze2(maze.maze)
+            timey = time.time()-t
+            nav2list.append((size, timey))
+    return nav2list
+
+
+if __name__== "__main__":
+    # m = [['1', '0', '0', '0'],
+    #      ['1', '1', '0', '0'],
+    #      ['0', '1', '0', '0'],
+    #      ['0', '1', '1', '1']]
+    #
+    # print(navigate_maze1(m, 33))
+    #
+    # # m = [['s', '0', '0', '0'],
+    # #      ['1', '1', '0', '0'],
+    # #      ['0', '1', '0', '0'],
+    # #      ['0', '1', '1', 'e']]
+    #
+    # maze = Maze((5,5))
+    # maze.add_path()
+    # print(maze.maze)
+    # navigate_maze2(maze.maze)
+    print(test_func())

@@ -68,13 +68,13 @@ def bfs(maze):
         add = q.get()
         # print(add)
         for j in ["N", "S", "E", "W"]:
+            if time.time()-t > 10:
+                print('nope',time.time()-t)
+                return False
             push = add + j
             if valid(maze, push, beg):
                 # print(push)
                 q.put(push)
-        if time.time()-t > 6:
-            print('nope',time.time()-t)
-            return False
 
 if __name__ == "__main__":
 
