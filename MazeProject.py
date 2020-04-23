@@ -28,7 +28,6 @@ class Maze:
     def random_start_end(self):
         self.start = [0,np.random.randint(0,self.size[0]-1)]
         self.end = [self.size[1]-1,np.random.randint(0,self.size[1]-1)]
-        print(self.start,self.end)
         self.maze[self.start[0]][self.start[1]] = 's'
         self.maze[self.end[0]][self.end[1]] = 'e'
 
@@ -52,7 +51,7 @@ class Maze:
 
 
 
-def navigate_maze1(maze, exitIndex):
+def navigate_maze1(maze):
     #TODO: sweep the graph to find the start and end (use find start from BFS)
     #fix edge cases
     #Casey
@@ -61,33 +60,59 @@ def navigate_maze1(maze, exitIndex):
     x_index = 0
     maze_dict = {}
     stack = []
+    for i in range(len(maze)):
+        for j in range(len(maze[i])):
+            if maze[i][j] == 'e':
+                maze[i][j] = '1'
+                exitIndex = int(str(i) + str(j))
+            if maze[i][j] == 's':
+                maze[i][j] = '1'
+                tempVarI = i
+                tempVarJ = j
+                y_index = i
+                x_index = j
+
     #create a dictionary to tag each index as visited or unvisited
-    for i in range(len(m)):
-        for j in range(len(m[i])):
+    for i in range(len(maze)):
+        for j in range(len(maze[i])):
             maze_dict[str(i) + str(j)] = False
     #overwrite the exitIndex with the tag 'Exit'
-    maze_dict[str(exitIndex)] = 'Exit'
-    print(maze_dict)
-    stack.append('00')
-    while maze_dict[str(y_index) + str(x_index)] != 'Exit':
+    stack.append(str(y_index) + str(x_index))
+    while str(y_index) + str(x_index) != str(exitIndex):
+        if len(stack) == 0:
+            return False
         maze_dict[str(stack[-1][0]) + str(stack[-1][1])] = True
-        print('Stack: ', stack)
         stack = stack[0:-1]
-        print('X:', x_index, '\nY:', y_index)
         try:
-            if maze[y_index + 1][x_index] == '1':
+            if maze[y_index + 1][x_index] == '1' and maze_dict[str(y_index + 1) + str(x_index)] == False:
                 stack.append(str(y_index + 1) + str(x_index))
         except IndexError:
             pass
         try:
-            if maze[y_index][x_index + 1] == '1':
+            if maze[y_index][x_index + 1] == '1' and maze_dict[str(y_index) + str(x_index + 1)] == False:
                 stack.append(str(y_index) + str(x_index + 1))
         except IndexError:
             pass
-        y_index = int(stack[-1][0])
-        x_index = int(stack[-1][1])
-
-    return maze_dict
+        try:
+            if y_index != 0:
+                if maze[y_index - 1][x_index] == '1' and maze_dict[str(y_index - 1) + str(x_index)] == False:
+                    stack.append(str(y_index - 1) + str(x_index))
+        except IndexError:
+            pass
+        try:
+            if x_index != 0:
+                if maze[y_index][x_index - 1] == '1' and maze_dict[str(y_index) + str(x_index - 1)] == False:
+                    stack.append(str(y_index) + str(x_index - 1))
+        except IndexError:
+            pass
+        try:
+            y_index = int(stack[-1][0])
+            x_index = int(stack[-1][1])
+        except IndexError:
+            return False
+    maze[int(str(exitIndex)[0])][int(str(exitIndex)[1])] = 'e'
+    maze[tempVarI][tempVarJ] = 's'
+    return True
 
 
 
@@ -107,14 +132,10 @@ def navigate_maze_control():
     pass
 
 def run(m):
-    t = time.time()
-
-    try:
-        navigate_maze2(m)
-    except time.time()-t > 6:
-        print('hello')
+    if navigate_maze1(m):
+        return True
+    else:
         return False
-    return True
 
 def test_func():
     #TODO:
@@ -133,16 +154,15 @@ def test_func():
     nav1list = []
     nav2list = []
     for size in range(10, 101):
-        print('yep')
+        print(size)
         for iter in range(10):
+            print('rep')
             maze = Maze((size,size))
             maze.add_path()
-            print(maze.maze)
             bool = run(maze.maze)
-            print('this is so sad')
             while bool == False:
-                print('this is so sad')
-                maze.blank_slate()
+                print('yikes')
+                maze.maze = maze.blank_slate()
                 maze.add_path()
                 bool = run(maze.maze)
             # t = time.time()
@@ -151,20 +171,19 @@ def test_func():
             # nav1list.append((size, time))
             #second test
             t = time.time()
-            print(maze.maze)
-            navigate_maze2(maze.maze)
+            navigate_maze1(maze.maze)
             timey = time.time()-t
             nav2list.append((size, timey))
     return nav2list
 
 
 if __name__== "__main__":
-    # m = [['1', '0', '0', '0'],
-    #      ['1', '1', '0', '0'],
-    #      ['0', '1', '0', '0'],
-    #      ['0', '1', '1', '1']]
-    #
-    # print(navigate_maze1(m, 33))
+    m = [['s', '1', '1', '1'],
+         ['1', '1', '0', '0'],
+         ['0', '1', '0', '0'],
+         ['1', '1', '1', 'e']]
+    # #
+    # print(navigate_maze1(m))
     #
     # # m = [['s', '0', '0', '0'],
     # #      ['1', '1', '0', '0'],
