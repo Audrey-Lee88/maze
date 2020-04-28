@@ -3,8 +3,7 @@ from random import shuffle, randrange
 
 def make_maze(w=5, h=5):
     vis = [[0] * (w) + [1] for _ in range(h)] + [[1] * (w+1)]
-    ver = [["1"] * (w-1) + ['1'] for _ in range(h)] + [[]]
-
+    ver = [["0"] * (w-1) + ['0'] for _ in range(h)] + [[]]
     hor = [["0"] * (w-1) + ['0'] for _ in range(h)]
 
     def walk(x, y):
