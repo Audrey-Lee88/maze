@@ -130,10 +130,76 @@ def navigate_maze3():
     #Audrey
     pass
 
-def navigate_maze_control():
-    #a*
-    #Casey
-    pass
+def navigate_maze4(maze):
+    #A* traversal
+    stack = []
+    x_index = 0
+    y_index = 0
+    maze_dict = {}
+    for i in range(len(maze)):
+        for j in range(len(maze[i])):
+            if maze[i][j] == 'e':
+                maze[i][j] = '1'
+                exitIndex = (i,j)
+            if maze[i][j] == 's':
+                maze[i][j] = '1'
+                tempVarI = i
+                tempVarJ = j
+                y_index = i
+                x_index = j
+
+    for i in range(len(maze)):
+        for j in range(len(maze[i])):
+            maze_dict[(i,j)] = (False)
+
+
+    stack.append(((y_index, x_index), (len(maze)^2 + len(maze[0])^2)))
+    while (y_index, x_index) != exitIndex:
+        # print(stack)
+        # print(second.maze)
+        if len(stack) == 0:
+            return False
+        print(stack)
+        maze_dict[stack[0][0]] = True
+        stack = stack[1:]
+
+        try:
+            if maze[y_index + 1][x_index] == '1' and maze_dict[((y_index + 1),(x_index))] == False:
+                print('we did it')
+                stack.append((((y_index + 1),(x_index)),((len(maze)-(y_index+1))^2 + (len(maze[0])-(x_index))^2)))
+        except IndexError:
+            pass
+        try:
+            if maze[y_index][x_index + 1] == '1' and maze_dict[((y_index),(x_index + 1))] == False:
+                stack.append((((y_index),(x_index + 1)),((len(maze)-(y_index))^2 + (len(maze[0])-(x_index + 1))^2)))
+        except IndexError:
+            pass
+        try:
+            if y_index != 0:
+                if maze[y_index - 1][x_index] == '1' and maze_dict[((y_index - 1),(x_index))] == False:
+                    stack.append((((y_index - 1),(x_index)), ((len(maze)-(y_index-1))^2 + (len(maze[0])-(x_index))^2)))
+        except IndexError:
+            pass
+        try:
+            if x_index != 0:
+                if maze[y_index][x_index - 1] == '1' and maze_dict[((y_index),(x_index - 1))] == False:
+                    stack.append((((y_index),(x_index - 1)), ((len(maze)-(y_index))^2 + (len(maze[0])-(x_index-1))^2)))
+        except IndexError:
+            pass
+        try:
+            print(stack)
+            stack = sorted(stack, key=lambda x: x[1])
+            y_index = stack[0][0][0]
+            x_index = stack[0][0][1]
+            print(y_index, x_index)
+        except IndexError:
+            return False
+    maze[exitIndex[0]][exitIndex[1]] = 'e'
+    maze[tempVarI][tempVarJ] = 's'
+    return True
+
+
+
 
 def run(m, second):
     if navigate_maze1(m, second):
@@ -191,13 +257,14 @@ if __name__== "__main__":
     # #
     # print(navigate_maze1(m))
     #
-    # # m = [['s', '0', '0', '0'],
-    # #      ['1', '1', '0', '0'],
-    # #      ['0', '1', '0', '0'],
-    # #      ['0', '1', '1', 'e']]
+    # m = [['s', '0', '0', '0'],
+    #      ['1', '1', '0', '0'],
+    #      ['0', '1', '0', '0'],
+    #      ['0', '1', '1', 'e']]
     #
     # maze = Maze((5,5))
     # maze.add_path()
     # print(maze.maze)
     # navigate_maze2(maze.maze)
-    print(test_func())
+    print(navigate_maze4(m))
+    # print(test_func())
