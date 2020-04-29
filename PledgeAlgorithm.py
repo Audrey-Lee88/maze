@@ -1,46 +1,87 @@
-from BreadthFirstSearch import valid, start
+from BreadthFirstSearch import start
+
+class PledgeAlgorithm:
+    def __init__(self):
+        self.maze_dict = dict()
+
+    def end(self, maze, moves, begin):
+        i = begin
+        j = 0
+        for move in moves:
+            if move == "W":
+                i -= 1
+            elif move == "E":
+                i += 1
+            elif move == "N":
+                j -= 1
+            elif move == "S":
+                j += 1
+
+        if maze[j][i] == "e":
+            print(moves)
+            print(self.maze_dict)
+            return True
+
+        return False
 
 
-def end(maze, moves, begin):
-    i = begin
-    j = 0
-    for move in moves:
-        if move == "W":
-            i -= 1
-        elif move == "E":
-            i += 1
-        elif move == "N":
-            j -= 1
-        elif move == "S":
-            j += 1
+    def check(self, maze, moves, begin):
+        i = begin
+        j = 0
+        track = []
+        for move in moves:
+            # Move left, right, up, or down
+            if move == "W":
+                i -= 1
+            elif move == "E":
+                i += 1
+            elif move == "N":
+                j -= 1
+            elif move == "S":
+                j += 1
 
-    if maze[j][i] == "e":
+            # Check if in row length and column length
+            if not (0 <= i < len(maze[0]) and 0 <= j < len(maze)):
+                return False
+            # Check if not in wall
+            elif maze[j][i] == "0":
+                return False
+            if self.maze_dict[(j, i)] is False:
+                track.append(move)
+
+            self.maze_dict[(j, i)] = True
+
+        print(self.maze_dict)
+        if track == []:
+            return False
+
         return True
 
-    return False
 
+    def pledge(self, m):
+        # create a dictionary to tag each index as visited or unvisited
+        for i in range(len(m)):
+            for j in range(len(m[0])):
+                self.maze_dict[(i, j)] = False
+        moves = ["S", "W", "E", "N"]
+        # n = len(moves) -1
+        begin = start(m)
+        move = "None"
+        for i in moves:
+            if self.check(m, i, begin):
+                move = i
+                break
+        past_moves = [move]
+        if move == "None":
+            return False
 
-def pledge(m):
-    # create a dictionary to tag each index as visited or unvisited
-    maze_dict = dict()
-    for i in range(len(m)):
-        for j in range(len(m[i])):
-            maze_dict[(i, j)] = False
-    moves = ["S", "W", "E", "N"]
-    n = len(moves) -1
-    begin = start(m)
-    for i in moves:
-        if valid(m, i, begin):
-            move = i
-    past_moves = [move]
-    # i =1
-
-    while not end(m, past_moves, begin):
-        print(past_moves)
-        # while i < 3:
         counter = 1
         print(counter)
         while counter != 0:
+            if self.end(m, past_moves, begin):
+                print('end')
+                break
+
             if abs(counter)-1 == 0 or (abs(counter)-1)%360 == 0:
                 print("zero")
                 moves = ["S", "W", "E", "N"]
@@ -65,91 +106,44 @@ def pledge(m):
             temp3 = past_moves.copy()
             temp3.append(moves[3])
 
-            if valid(m, temp0, begin):
+            if self.check(m, temp0, begin):
                 print("you go forward")
                 past_moves.append(moves[0])
-                counter = 0
+                counter = 1
 
-            elif not valid(m, temp0, begin):
-
-                if valid(m, temp1, begin):
+            elif not self.check(m, temp0, begin):
+                print("elif")
+                if self.check(m, temp1, begin):
                     print("you turn right")
                     past_moves.append(moves[1])
                     counter += 90
                     print(counter)
 
-                elif not valid(m, temp1, begin):
+                elif not self.check(m, temp1, begin):
 
-                    if valid(m, temp2, begin):
+                    if self.check(m, temp2, begin):
                         print("you turn left")
                         past_moves.append(moves[2])
                         counter += 270
                         print(counter)
 
+                    elif self.check(m, temp3, begin):
+                        print("turn around")
+                        past_moves.append(moves[3])
+                        counter += 180
+                        print(counter)
+
                     else:
                         print("you turn back")
-                        if end(m, past_moves, begin):
-                            print('end')
-                            break
-                        past_moves.append(temp3)
+                        past_moves.append(moves[0])
                         print(past_moves)
-                        break
 
-        # i = 0
-        # while i <= n:
-        #     potential = past_moves +['N']
-        #     print(potential)
-        #     past_moves.append(moves[i])
-        #     print(past_moves, 'past')
-        #
-        #     print(moves[i],"move")
-        #
-        #     if end(m, past_moves, begin) and valid(m, past_moves,begin):
-        #         break
-        #     if valid(m, potential, begin) and not valid(m, past_moves, begin):
-        #         print("N",i)
-        #
-        #         past_moves.pop(-1)
-        #         i += 1
-        #         if i > n:
-        #             print('shoot')
-        #     elif valid(m, past_moves, begin):
-        #         print(moves[i])
-        #         i = 0
-        #     else:
-        #         i += 1
-        #     potential.pop(-1)
-        # counter = 1
-        # print(counter)
-        # while counter != 0:
-        #     print(counter)
-        #     if forward == "y":
-        #         print("you go forward")
-        #         past_move.append("forward")
-        #
-        #     elif forward == "n":
-        #
-        #         if right == "y":
-        #             print("you turn right")
-        #             past_move.append("right")
-        #             counter += 89
-        #             print(counter)
-        #
-        #         elif right == "n":
-        #
-        #             if left == "y":
-        #                 print("you turn left")
-        #                 past_move.append("left")
-        #                 counter -= 91
-        #                 print(counter)
-        #
-        #             else:
-        #                 print("you turn back")
-        #                 past_move.append("go back")
-
+        return True
 
 if __name__ == "__main__":
-    m = [['0','0','s','1','1'],
-         ['1','0','0','1','0'],
-         ['0','0','1','1','e']]
-    pledge(m)
+    m = [['1', '1', 's', '0', '1'],
+         ['1', '1', '1', '1', '1'],
+         ['1', '1', '1', '1', '1'],
+         ['1', 'e', '1', '1', '1']]
+    P = PledgeAlgorithm()
+    P.pledge(m)
