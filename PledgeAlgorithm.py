@@ -36,43 +36,64 @@ def pledge(m):
     # i =1
 
     while not end(m, past_moves, begin):
-    # while i < 3:
+        print(past_moves)
+        # while i < 3:
         counter = 1
         print(counter)
         while counter != 0:
             if abs(counter)-1 == 0 or (abs(counter)-1)%360 == 0:
+                print("zero")
                 moves = ["S", "W", "E", "N"]
-            if abs(counter)-1 == 90:
-                moves = ["W", "N", "S", "E"]
-            if abs(counter)-1 == 180:
-                moves = ["N", "E", "W", "S"]
-            if abs(counter)-1 == 270:
+            elif (abs(counter)-1)%270 == 0:
+                print("one")
                 moves = ["E", "S", "N", "W"]
-            print(counter)
-            if valid(m, moves[0], begin):
+            elif (abs(counter)-1)%180 == 0:
+                print("two")
+                moves = ["N", "E", "W", "S"]
+            elif (abs(counter)-1)%90  == 0:
+                print('three')
+                moves = ["W", "N", "S", "E"]
+
+            print(counter, moves)
+            temp0 = past_moves.copy()
+            temp0.append(moves[0])
+            print(temp0, past_moves,'temp')
+            temp1 = past_moves.copy()
+            temp1.append(moves[1])
+            temp2 = past_moves.copy()
+            temp2.append(moves[2])
+            temp3 = past_moves.copy()
+            temp3.append(moves[3])
+
+            if valid(m, temp0, begin):
                 print("you go forward")
                 past_moves.append(moves[0])
                 counter = 0
 
-            elif not valid(m, moves[0], begin):
+            elif not valid(m, temp0, begin):
 
-                if valid(m, moves[1], begin):
+                if valid(m, temp1, begin):
                     print("you turn right")
-                    past_moves.append(moves[2])
-                    counter += 89
+                    past_moves.append(moves[1])
+                    counter += 90
                     print(counter)
 
-                elif not valid(m, moves[1], begin):
+                elif not valid(m, temp1, begin):
 
-                    if valid(m, moves[2], begin):
+                    if valid(m, temp2, begin):
                         print("you turn left")
                         past_moves.append(moves[2])
-                        counter -= 91
+                        counter += 270
                         print(counter)
 
                     else:
                         print("you turn back")
-                        past_moves.append("go back")
+                        if end(m, past_moves, begin):
+                            print('end')
+                            break
+                        past_moves.append(temp3)
+                        print(past_moves)
+                        break
 
         # i = 0
         # while i <= n:
@@ -130,5 +151,5 @@ def pledge(m):
 if __name__ == "__main__":
     m = [['0','0','s','1','1'],
          ['1','0','0','1','0'],
-         ['0','0','e','1','0']]
+         ['0','0','1','1','e']]
     pledge(m)
