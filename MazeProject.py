@@ -221,7 +221,7 @@ def test_func():
     nav1list = []
     nav2list = []
     nav4list = []
-    for size in range(5, 20):
+    for size in range(5, 40):
         print(size, ' this is the size')
         maze = Maze((size,size))
         for iter in range(10):
@@ -232,25 +232,23 @@ def test_func():
                 maze.maze = maze.blank_slate()
                 maze.add_path()
                 bool = run(maze.maze, maze)
-            # t = time.time()
+            # t = time.clock()
             # navigate_maze1()
-            # time = time.time()-t
+            # time = time.clock()-t
             # nav1list.append((size, time))
             #second test
-            t = time.time()
+            t = time.clock()
             navigate_maze1(maze.maze, maze)
-            timey = time.time()-t
+            timey = time.clock()-t
             nav1list.append((size, timey))
             if size < 10:
-                t = time.time()
+                t = time.clock()
                 navigate_maze2(maze.maze)
-                timey = time.time()-t
+                timey = time.clock()-t
                 nav2list.append((size, timey))
-            else:
-                nav2list.append((size, '5'))
-            t = time.time()
+            t = time.clock()
             navigate_maze4(maze.maze)
-            timey = time.time()-t
+            timey = time.clock()-t
             nav4list.append((size, timey))
     return nav1list, nav2list, nav4list
 
@@ -275,7 +273,18 @@ if __name__== "__main__":
     # navigate_maze2(maze.maze)
     # print(navigate_maze4(maze.maze))
     nav1list, nav2list, nav4list = test_func()
-    plt.scatter(*zip(*nav1list))
-    plt.scatter(*zip(*nav2list))
-    plt.scatter(*zip(*nav4list))
+    plt.scatter(*zip(*nav1list),s=1)
+    plt.xlabel('Size of Maze')
+    plt.ylabel('Time (sec)')
+    plt.title('Depth First Search')
+    plt.show()
+    plt.scatter(*zip(*nav2list),s=1)
+    plt.xlabel('Size of Maze')
+    plt.ylabel('Time (sec)')
+    plt.title('Breadth First Search')
+    plt.show()
+    plt.scatter(*zip(*nav4list),s=1)
+    plt.title('A* Algorithm')
+    plt.xlabel('Size of Maze')
+    plt.ylabel('Time (sec)')
     plt.show()
