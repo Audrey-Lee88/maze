@@ -221,7 +221,7 @@ def test_func():
     nav1list = []
     nav2list = []
     nav4list = []
-    for size in range(10, 43):
+    for size in range(5, 20):
         print(size, ' this is the size')
         maze = Maze((size,size))
         for iter in range(10):
@@ -241,15 +241,15 @@ def test_func():
             navigate_maze1(maze.maze, maze)
             timey = time.time()-t
             nav1list.append((size, timey))
-            # t = time.time()
-            # navigate_maze2(maze.maze)
-            # timey = time.time()-t
-            # nav2list.append((size, timey))
+            t = time.time()
+            navigate_maze2(maze.maze)
+            timey = time.time()-t
+            nav2list.append((size, timey))
             t = time.time()
             navigate_maze4(maze.maze)
             timey = time.time()-t
             nav4list.append((size, timey))
-    return nav1list, nav4list
+    return nav1list, nav2list, nav4list
 
 
 if __name__== "__main__":
@@ -265,12 +265,12 @@ if __name__== "__main__":
     #      ['0', '1', '0', '0'],
     #      ['0', '1', '1', 'e']]
     #
-    maze = Maze((5,5))
-    maze.add_path()
-    print(maze.maze)
+    # maze = Maze((5,5))
+    # maze.add_path()
+    # print(maze.maze)
     # print(maze.maze)
     # navigate_maze2(maze.maze)
     # print(navigate_maze4(maze.maze))
-    nav1list, nav4list = test_func()
-    plt.scatter(*zip(*nav1list), *zip(*nav4list))
+    nav1list, nav2list, nav4list = test_func()
+    plt.scatter(*zip(*nav1list), *zip(*nav2list),*zip(*nav4list))
     plt.show()
