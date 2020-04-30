@@ -11,6 +11,7 @@ import random
 from BreadthFirstSearch import bfs
 from GenerateMaze import make_maze
 import time
+import matplotlib.pyplot as plt
 
 
 class Maze:
@@ -159,13 +160,11 @@ def navigate_maze4(maze):
         # print(second.maze)
         if len(stack) == 0:
             return False
-        print(stack)
         maze_dict[stack[0][0]] = True
         stack = stack[1:]
 
         try:
             if maze[y_index + 1][x_index] == '1' and maze_dict[((y_index + 1),(x_index))] == False:
-                print('we did it')
                 stack.append((((y_index + 1),(x_index)),((len(maze)-(y_index+1))^2 + (len(maze[0])-(x_index))^2)))
         except IndexError:
             pass
@@ -187,11 +186,9 @@ def navigate_maze4(maze):
         except IndexError:
             pass
         try:
-            print(stack)
             stack = sorted(stack, key=lambda x: x[1])
             y_index = stack[0][0][0]
             x_index = stack[0][0][1]
-            print(y_index, x_index)
         except IndexError:
             return False
     maze[exitIndex[0]][exitIndex[1]] = 'e'
@@ -223,17 +220,16 @@ def test_func():
     #plot?
     nav1list = []
     nav2list = []
+    nav4list = []
     for size in range(10, 43):
-        print(size)
+        print(size, ' this is the size')
         maze = Maze((size,size))
         for iter in range(10):
             print('rep')
             maze.maze = maze.blank_slate()
             maze.add_path()
             bool = run(maze.maze, maze)
-            print(bool)
             while bool == False:
-                print('yikes')
                 maze.maze = maze.blank_slate()
                 maze.add_path()
                 bool = run(maze.maze, maze)
@@ -245,8 +241,16 @@ def test_func():
             t = time.time()
             navigate_maze1(maze.maze, maze)
             timey = time.time()-t
-            nav2list.append((size, timey))
-    return nav2list
+            nav1list.append((size, timey))
+            # t = time.time()
+            # navigate_maze2(maze.maze)
+            # timey = time.time()-t
+            # nav2list.append((size, timey))
+            t = time.time()
+            navigate_maze4(maze.maze)
+            timey = time.time()-t
+            nav4list.append((size, timey))
+    return nav1list, nav4list
 
 
 if __name__== "__main__":
@@ -266,5 +270,7 @@ if __name__== "__main__":
     # maze.add_path()
     # print(maze.maze)
     # navigate_maze2(maze.maze)
-    print(navigate_maze4(m))
-    # print(test_func())
+    # print(navigate_maze4(maze.maze))
+    nav1list, nav4list = test_func()
+    plt.scatter(*zip(*nav1list), *zip(*nav4list))
+    plt.show()
