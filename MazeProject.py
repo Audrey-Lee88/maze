@@ -17,14 +17,13 @@ import matplotlib.pyplot as plt
 class Maze:
     def __init__(self, size):
         self.size = size
-        self.maze = self.blank_slate()
+        self.maze = []
         #do init stuff for 2D arrays
 
     def blank_slate(self):
         #populate the Maze with 0s, which
         #indicate maze walls
-        maze = [['1' for i in range(self.size[0])] for j in range(self.size[1])]
-        return maze
+        self.maze = [['0' for _ in range(self.size[0])] for _ in range(self.size[1])]
 
     def random_start_end(self):
         self.start = [0,np.random.randint(0,self.size[0]-1)]
@@ -46,7 +45,8 @@ class Maze:
         #overwrite a random succesfull path from
         #the start to end
         # Audrey
-        self.maze = make_maze(self.size[0],self.size[1])
+        self.blank_slate()
+        self.maze = make_maze(self.size[0], self.size[1])
         self.random_start_end()
         self.add_noise()
 
@@ -226,7 +226,6 @@ def test_func():
         maze = Maze((size,size))
         for iter in range(10):
             print('rep')
-            maze.maze = maze.blank_slate()
             maze.add_path()
             bool = run(maze.maze, maze)
             while bool == False:
@@ -266,8 +265,9 @@ if __name__== "__main__":
     #      ['0', '1', '0', '0'],
     #      ['0', '1', '1', 'e']]
     #
-    # maze = Maze((5,5))
-    # maze.add_path()
+    maze = Maze((5,5))
+    maze.add_path()
+    print(maze.maze)
     # print(maze.maze)
     # navigate_maze2(maze.maze)
     # print(navigate_maze4(maze.maze))
