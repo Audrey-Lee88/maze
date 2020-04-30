@@ -1,5 +1,6 @@
 from BreadthFirstSearch import start
 
+
 class PledgeAlgorithm:
     def __init__(self):
         self.maze_dict = dict()
