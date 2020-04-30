@@ -241,10 +241,13 @@ def test_func():
             navigate_maze1(maze.maze, maze)
             timey = time.time()-t
             nav1list.append((size, timey))
-            t = time.time()
-            navigate_maze2(maze.maze)
-            timey = time.time()-t
-            nav2list.append((size, timey))
+            if size < 10:
+                t = time.time()
+                navigate_maze2(maze.maze)
+                timey = time.time()-t
+                nav2list.append((size, timey))
+            else:
+                nav2list.append((size, '5'))
             t = time.time()
             navigate_maze4(maze.maze)
             timey = time.time()-t
@@ -272,5 +275,7 @@ if __name__== "__main__":
     # navigate_maze2(maze.maze)
     # print(navigate_maze4(maze.maze))
     nav1list, nav2list, nav4list = test_func()
-    plt.scatter(*zip(*nav1list), *zip(*nav2list),*zip(*nav4list))
+    plt.scatter(*zip(*nav1list))
+    plt.scatter(*zip(*nav2list))
+    plt.scatter(*zip(*nav4list))
     plt.show()
